@@ -1,79 +1,25 @@
-@file:Suppress("OPT_IN_USAGE")
-
 plugins {
+    kotlin("jvm")
+    `java-library`
     `publishing-convention`
-    `kotlin-multiplatform-with-android-convention`
     id("org.jlleitschuh.gradle.ktlint")
-}
-
-android {
-    namespace = "com.github.lamba92.kotlin.document.store.tests"
+    kotlin("plugin.serialization")
 }
 
 kotlin {
-    jvm()
-    androidTarget()
-    js {
-        browser()
-    }
+    jvmToolchain(11) // optional, matches your core module
+}
 
-    mingwX64()
+dependencies {
+    implementation(projects.core)
+    api(kotlin("test-junit5"))
+    implementation(libs.kotlinx.coroutines.test)
+    implementation(libs.kotlinx.io.core)
 
-    linuxX64()
-    linuxArm64()
+    testImplementation(libs.junit.jupiter.api)
+    testRuntimeOnly(libs.junit.jupiter.engine)
+}
 
-    macosArm64()
-    macosX64()
-
-    iosArm64()
-    iosX64()
-    iosSimulatorArm64()
-
-    watchosArm64()
-    watchosX64()
-    watchosSimulatorArm64()
-
-    tvosArm64()
-    tvosX64()
-    tvosSimulatorArm64()
-
-    androidNativeX64()
-    androidNativeX86()
-    androidNativeArm64()
-    androidNativeArm32()
-
-    wasmWasi {
-        nodejs()
-    }
-    wasmJs {
-        browser()
-        nodejs()
-    }
-
-    sourceSets {
-
-        commonMain {
-            dependencies {
-                api(projects.core)
-                api(kotlin("test"))
-                api(libs.kotlinx.coroutines.test)
-                api(libs.kotlinx.io.core)
-            }
-        }
-
-        jvmMain {
-            dependencies {
-                api(libs.junit.jupiter.api)
-                api(kotlin("test-junit5"))
-            }
-        }
-
-        androidMain {
-            dependencies {
-                api(libs.androidx.test.runner)
-                api(libs.androidx.test.core)
-                api(libs.android.test.junit)
-            }
-        }
-    }
+tasks.test {
+    useJUnitPlatform()
 }
