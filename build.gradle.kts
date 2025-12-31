@@ -1,22 +1,22 @@
 plugins {
     versions
-    id("io.github.gradle-nexus.publish-plugin")
+    id("maven-publish")
 }
 
-nexusPublishing {
-    // repositoryDescription is used by the nexus publish plugin as identifier
-    // for the repository to publish to.
-    val repoDesc =
-        System.getenv("SONATYPE_REPOSITORY_DESCRIPTION")
-            ?: project.properties["central.sonatype.repositoryDescription"] as? String
-    repoDesc?.let { repositoryDescription = it }
+subprojects {
+    plugins.withType<JavaPlugin> {
+        apply(plugin = "maven-publish")
 
-    repositories {
-        sonatype {
-            username = System.getenv("SONATYPE_USERNAME")
-                ?: project.properties["central.sonatype.username"] as? String
-            password = System.getenv("SONATYPE_PASSWORD")
-                ?: project.properties["central.sonatype.password"] as? String
+        configure<PublishingExtension> {
+            publications {
+                create<MavenPublication>("mavenJava") {
+                    artifact(tasks.named("jar"))
+
+                    groupId = "com.github.lamba92"
+                    artifactId = project.name
+                    version = "1.0.0"
+                }
+            }
         }
     }
 }

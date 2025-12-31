@@ -11,7 +11,6 @@ plugins {
 
 val kotlinPlugins = listOf(
     "org.jetbrains.kotlin.jvm",
-    "org.jetbrains.kotlin.multiplatform"
 )
 
 kotlinPlugins.forEach { kotlinPluginId ->

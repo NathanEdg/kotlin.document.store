@@ -1,6 +1,5 @@
 @file:Suppress("OPT_IN_USAGE")
 
-
 plugins {
     kotlin("jvm")
     `publishing-convention`

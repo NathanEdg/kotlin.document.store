@@ -28,7 +28,7 @@ import kotlin.jvm.JvmName
  * @param store The underlying persistent data store for managing collection data.
  * @param json A `Json` instance used for serialization and deserialization of documents.
  */
-public class KotlinDocumentStore internal constructor(
+public class KotlinDocumentStore(
     public val store: DataStore,
     public val json: Json,
 ) : SuspendCloseable by store {
